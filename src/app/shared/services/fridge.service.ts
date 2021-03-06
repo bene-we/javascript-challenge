@@ -23,10 +23,60 @@ export class FridgeService {
 
     // Create the first value as BehaviorSubject
     this.fridgeItems$ = new BehaviorSubject(this._fridgeItems);
+
+    setTimeout(() => {
+      this.addFridgeItem({
+        item: {
+          name: 'Cheese',
+          amount: 1,
+        },
+        fridge: {
+          name: 'Fridge 2',
+        }
+      })
+    }, 5000);
+
+    setTimeout(() => {
+      this.addFridgeItem({
+        item: {
+          name: 'Cheese',
+          amount: 3,
+        },
+        fridge: {
+          name: 'Fridge 2',
+        }
+      })
+    }, 10000);
   }
 
+  /*
+   * Receive the list of fridge items
+   */
   get fridgeItems() {
     return this.fridgeItems$.asObservable();
+  }
+
+  /*
+   * Add an item to the current list
+   */
+  addFridgeItem(fi: FridgeItem) {
+    // ToDo: Also check the other fridges for the same item to alert the user about it
+
+    // Check if the item to add exists already
+    const exists = this._fridgeItems.find(fridgeItem =>
+      fridgeItem.item.name === fi.item.name &&
+      fridgeItem.fridge.name === fi.fridge.name);
+    if (exists) {
+      // Item with this name in this fridge exists already,
+      // add amount
+      const index = this._fridgeItems.indexOf(exists);
+      this._fridgeItems[index].item.amount += fi.item.amount;
+    } else {
+      // Item does not exist, add it to the list
+      this._fridgeItems.push(fi);
+    }
+    // Emit the changes
+    this.fridgeItems$.next(this._fridgeItems);
   }
 
 }
