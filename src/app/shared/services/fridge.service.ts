@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { Fridge } from '../models';
 import { FridgeItem } from '../models/fridge-item.model';
 import { fridgeItems } from './fridge-items';
 
@@ -7,12 +8,12 @@ import { fridgeItems } from './fridge-items';
   providedIn: 'root'
 })
 export class FridgeService {
-  // Keep a private list of fridge items
-  private _fridgeItems: FridgeItem[];
+  // Keep a private map of fridge items
+  private _fridgeItems: Map<string, FridgeItem>;
 
   // Provide the fridge items as an Observable
   // to allow updating the list asynchronously in the template
-  private fridgeItems$: BehaviorSubject<FridgeItem[]>;
+  private fridgeItems$: BehaviorSubject<Map<string, FridgeItem>>;
 
   constructor() {
     // ToDo: Implement functionality to persist the lists
@@ -25,28 +26,16 @@ export class FridgeService {
     this.fridgeItems$ = new BehaviorSubject(this._fridgeItems);
 
     setTimeout(() => {
-      this.addFridgeItem({
-        item: {
-          name: 'Cheese',
-          amount: 1,
-        },
-        fridge: {
-          name: 'Fridge 2',
-        }
-      })
+      this.addFridgeItem(new FridgeItem('Cheese', 1, new Fridge('Fridge 1')));
     }, 5000);
 
     setTimeout(() => {
-      this.addFridgeItem({
-        item: {
-          name: 'Cheese',
-          amount: 3,
-        },
-        fridge: {
-          name: 'Fridge 2',
-        }
-      })
+      this.addFridgeItem(new FridgeItem('Cheese', 3, new Fridge('Fridge 1')));
     }, 10000);
+
+    setTimeout(() => {
+      this.markAsUsed('Cheese');
+    }, 15000);
   }
 
   /*
@@ -62,21 +51,33 @@ export class FridgeService {
   addFridgeItem(fi: FridgeItem) {
     // ToDo: Also check the other fridges for the same item to alert the user about it
 
-    // Check if the item to add exists already
-    const exists = this._fridgeItems.find(fridgeItem =>
-      fridgeItem.item.name === fi.item.name &&
-      fridgeItem.fridge.name === fi.fridge.name);
-    if (exists) {
-      // Item with this name in this fridge exists already,
-      // add amount
-      const index = this._fridgeItems.indexOf(exists);
-      this._fridgeItems[index].item.amount += fi.item.amount;
+    if (this._fridgeItems.has(fi.name)) {
+      // Item with this name already exists, add amount
+      const existingFridgeItem: FridgeItem = this._fridgeItems.get(fi.name)!;
+      const newFridgeItem = new FridgeItem(existingFridgeItem.name, existingFridgeItem.amount + fi.amount, existingFridgeItem.fridge);
+      this._fridgeItems.set(fi.name, newFridgeItem);
     } else {
       // Item does not exist, add it to the list
-      this._fridgeItems.push(fi);
+      this._fridgeItems.set(fi.name, fi)
     }
-    // Emit the changes
-    this.fridgeItems$.next(this._fridgeItems);
+    // The changes are emitted automatically
+  }
+
+  /*
+   * Mark an item on the fridge list as used up
+   */
+  markAsUsed(item: string) {
+    if (this._fridgeItems.has(item)) {
+      const existingFridgeItem: FridgeItem = this._fridgeItems.get(item)!;
+      if (existingFridgeItem.amount > 1) {
+        // There exists more than one, decreate it's amount
+        existingFridgeItem.amount--;
+        this._fridgeItems.set(item, existingFridgeItem);
+      } else {
+        // There exists just one item, delete it
+        this._fridgeItems.delete(item);
+      }
+    }
   }
 
 }

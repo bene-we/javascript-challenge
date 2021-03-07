@@ -1,5 +1,5 @@
 <ul>
-  <li *ngFor="let fridgeItem of fridgeItems$ | async; index as i">
-    {{ fridgeItem.item.name }} {{ fridgeItem.item.amount }} {{ fridgeItem.fridge.name }}
+  <li *ngFor="let mapItem of fridgeItems$ | async | keyvalue; index as i">
+    {{ mapItem.key }} {{ mapItem.value.amount }} {{ mapItem.value.fridge.name }}
   </li>
 </ul>

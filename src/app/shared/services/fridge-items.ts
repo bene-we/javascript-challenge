@@ -1,24 +1,8 @@
 /* Provide an initial list of fridge items */
 
-import { FridgeItem } from "../models";
+import { Fridge, FridgeItem } from "../models";
 
-export const fridgeItems: FridgeItem[] = [
-  {
-    item: {
-      name: 'Bread',
-      amount: 1,
-    },
-    fridge: {
-      name: 'Fridge 1',
-    }
-  },
-  {
-    item: {
-      name: 'Tomatoe',
-      amount: 2,
-    },
-    fridge: {
-      name: 'Fridge 2',
-    }
-  }
-]
+export const fridgeItems: Map<string, FridgeItem> = new Map([
+  ['Bread', new FridgeItem('Bread', 1, new Fridge('Fridge 1'))],
+  ['Tomatoe', new FridgeItem('Tomatoe', 2, new Fridge('Fridge 2'))],
+]);

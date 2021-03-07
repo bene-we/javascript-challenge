@@ -1,8 +1,7 @@
 /*
- * Interface for the basic item
+ * Class for the basic item
  * used in the fridge and shopping lists
  */
-export interface Item {
-  name: string;
-  amount: number;
+export class Item {
+  constructor(public name: string, public amount: number) { }
 }

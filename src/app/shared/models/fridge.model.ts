@@ -1,7 +1,7 @@
 /*
- * Fridge model to include further attributes
+ * Fridge class to include further attributes
  * (e.g. color, location, ...) in the future
  */
-export interface Fridge {
-  name: string;
+export class Fridge {
+  constructor(public name: string) {};
 }

@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./fridge-list.component.scss']
 })
 export class FridgeListComponent implements OnInit {
-  fridgeItems$: Observable<FridgeItem[]>;
+  fridgeItems$: Observable<Map<string, FridgeItem>>;
 
   constructor(private _fridgeService: FridgeService) {
     this.fridgeItems$ = this._fridgeService.fridgeItems;
