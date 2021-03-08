@@ -11,7 +11,7 @@ export class FridgeService {
   // Keep a private map of fridge items
   private _fridgeItems: Map<string, FridgeItem>;
 
-  // Provide the fridge items as an Observable
+  // Provide the fridge items as Subject
   // to allow updating the list asynchronously in the template
   private fridgeItems$: BehaviorSubject<Map<string, FridgeItem>>;
 
