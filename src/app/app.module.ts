@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FridgeListComponent } from './fridge-list/fridge-list.component';
+import { MaterialModule } from './shared';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { FridgeListComponent } from './fridge-list/fridge-list.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MaterialModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

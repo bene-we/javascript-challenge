@@ -25,7 +25,7 @@ export class FridgeService {
     // Create the first value as BehaviorSubject
     this.fridgeItems$ = new BehaviorSubject(this._fridgeItems);
 
-    setTimeout(() => {
+    /* setTimeout(() => {
       this.addFridgeItem(new FridgeItem('Cheese', 1, new Fridge('Fridge 1')));
     }, 5000);
 
@@ -35,7 +35,7 @@ export class FridgeService {
 
     setTimeout(() => {
       this.markAsUsed('Cheese');
-    }, 15000);
+    }, 15000); */
   }
 
   /*
@@ -70,7 +70,7 @@ export class FridgeService {
     if (this._fridgeItems.has(item)) {
       const existingFridgeItem: FridgeItem = this._fridgeItems.get(item)!;
       if (existingFridgeItem.amount > 1) {
-        // There exists more than one, decreate it's amount
+        // There exists more than one, decrease it's amount
         existingFridgeItem.amount--;
         this._fridgeItems.set(item, existingFridgeItem);
       } else {

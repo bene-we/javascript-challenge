@@ -1,5 +1,19 @@
-<ul>
-  <li *ngFor="let mapItem of fridgeItems$ | async | keyvalue; index as i">
-    {{ mapItem.key }} {{ mapItem.value.amount }} {{ mapItem.value.fridge.name }}
-  </li>
-</ul>
+<div class="fridge-list-container">
+  <h1>Your items in the fridge:</h1>
+
+  <div class="list-container">
+    <mat-list>
+      <ng-container *ngFor="let mapItem of fridgeItems$ | async | keyvalue; index as i; last as isLast">
+        <mat-list-item>
+          <div mat-line class="mat-body-strong">
+            {{ mapItem.key }}
+          </div>
+          <div mat-line>
+            {{ mapItem.value.fridge.name }}
+          </div>
+        </mat-list-item>
+        <mat-divider *ngIf="!isLast" [inset]="true"></mat-divider>
+      </ng-container>
+    </mat-list>
+  </div>
+</div>
